@@ -1,0 +1,42 @@
+using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class LevelTimer : MonoBehaviour
+{
+    public float timeRemaining = 60f; 
+    public TextMeshProUGUI timerText;
+    private bool timerRunning = true;
+
+    void Update()
+    {
+        if (timerRunning)
+        {
+            if (timeRemaining > 0)
+            {
+                timeRemaining -= Time.deltaTime;
+                UpdateTimerUI();
+            }
+            else
+            {
+                timeRemaining = 0;
+                timerRunning = false;
+                EndLevel();
+            }
+        }
+    }
+
+    void UpdateTimerUI()
+    {
+        int minutes = Mathf.FloorToInt(timeRemaining / 60);
+        int seconds = Mathf.FloorToInt(timeRemaining % 60);
+        timerText.text = $"{minutes:00}:{seconds:00}";
+    }
+
+    void EndLevel()
+    {
+ 
+        Debug.Log("Time's up!");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); 
+    }
+}
